@@ -1,4 +1,4 @@
-# AzureMapsRouteEtaService
+# Azure Maps Route ETA Service
 
 A simple solution to get the estimated time of arrival (ETA) of a vehicle is to call an online routing service, like what is available in Azure Maps. However, if you want to regularly check the ETA to ensure the vehicle is still on track, and/or have a lot of vehicles, calling an online service constantly can quickly generate a lot of financial costs. A more cost effective solution is to cache the route and use the vehicles position over time to interpolate it's position along that route, and calculate the remaining time. 
 
