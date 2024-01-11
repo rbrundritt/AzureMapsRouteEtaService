@@ -1,0 +1,55 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+
+    <script type="text/javascript">
+        var tripId = 1234567890;
+        var origin = { latitude: 47.60323, longitude: -122.33028 };
+        var destination = { latitude: 47.67491, longitude: -122.124 };
+
+        var onRouteCoordinate = { latitude: 47.638393, longitude: - 122.186449 };
+        var offRouteCoordinate = { latitude: 47.620915, longitude: - 122.156493 };
+
+        function CreateTrip() {
+            callService(`api/RouteEta/CreateTrip/${tripId}/${origin.latitude}/${origin.longitude}/${destination.latitude}/${destination.longitude}/`);
+        }
+
+        function CalculateEta() {
+            callService(`api/RouteEta/GetEta/${tripId}/${onRouteCoordinate.latitude}/${onRouteCoordinate.longitude}/`);
+        }
+
+        function CalculateOffRouteEta() {
+            callService(`api/RouteEta/GetEta/${tripId}/${offRouteCoordinate.latitude}/${offRouteCoordinate.longitude}/`);
+        }
+
+        function RemoveTrip() {
+            callService(`api/RouteEta/RemoveTrip/${tripId}`);
+        }
+
+        function callService(request) {
+            fetch(request)
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('output').innerHTML = JSON.stringify(data);
+                })
+                .catch(error => {
+                    document.getElementById('output').innerHTML = error;
+                });
+        }
+    </script>
+</head>
+<body>
+    <h1>Route ETA Service</h1>
+    <input type="button" onclick="CreateTrip()" value="CreateTrip" /> - Registers a new trip into the service. Returns the initial ETA.
+    <br />
+    <input type="button" onclick="CalculateEta()" value="Get ETA for coordinate" /> - Gets the ETA for a coordinate near a route.
+    <br />
+    <input type="button" onclick="CalculateOffRouteEta()" value="Get ETA for off route coordinate" /> - Gets the ETA for a coordinate far from route. Triggers a new route calculation.
+    <br />
+    <input type="button" onclick="RemoveTrip()" value="Remove trip" /> - Removes a trip from the services cache.
+    <br /><br />
+    <div id="output"></div>
+</body>
+</html>
